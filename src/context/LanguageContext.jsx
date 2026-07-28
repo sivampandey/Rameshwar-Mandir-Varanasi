@@ -1,0 +1,520 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+
+const LanguageContext = createContext();
+
+export const translations = {
+  hi: {
+    // Navbar
+    nav: {
+      templeName: "श्री रामेश्वर महादेव मंदिर",
+      templeLoc: "पंचकोशी मार्ग, वाराणसी",
+      home: "होम",
+      intro: "मंदिर परिचय",
+      history: "इतिहास",
+      yatra: "पंचकोशी यात्रा",
+      gallery: "गैलरी",
+      timings: "आरती समय",
+      priest: "पं. अनूप तिवारी",
+      contact: "संपर्क",
+      donate: "दान करें",
+      langSwitch: "English",
+      langCode: "EN",
+    },
+    // Home Page
+    home: {
+      mantra: "|| ॐ नमः शिवाय ||",
+      heroTitle: "श्री रामेश्वर महादेव मंदिर",
+      heroSub: "वाराणसी (काशी)",
+      heroDesc: "स्कंद पुराण (काशी खंड) में वर्णित एवं मर्यादा पुरुषोत्तम भगवान श्रीराम द्वारा ब्रह्महत्या दोष निवारण हेतु स्थापित सिद्ध शिव धाम। वरुणा नदी तट पर स्थित काशी पंचकोशी परिक्रमा का अति पावन तृतीय विश्राम पड़ाव।",
+      btnYatra: "ॐ पंचकोशी यात्रा देखें",
+      btnDarshan: "मंदिर दर्शन एवं मार्ग",
+      badgeSeva: "लोटा-भंटा मेला",
+      badgeSevaSub: "निःशुल्क भोजन प्रसादम",
+      introTitle: "मंदिर परिचय",
+      introText: "वाराणसी (काशी) के प्रसिद्ध पंचकोशी परिक्रमा मार्ग पर वरुणा नदी के तट पर स्थित श्री रामेश्वर महादेव मंदिर सनातन धर्म का अत्यंत प्राचीन एवं जाग्रत केंद्र है। यह मंदिर 88 किमी लंबे पंचकोशी परिक्रमा मार्ग का तृतीय और सबसे मुख्य रात्रि विश्राम पड़ाव है।",
+      historyTitle: "मंदिर का इतिहास व पौराणिक गाथा",
+      historyText: "स्कंद पुराण के काशी खंड के अनुसार, लंका विजय के उपरांत भगवान श्रीराम ने ब्रह्महत्या दोष से मुक्ति हेतु वरुणा तट पर स्वयं बालू से शिवलिंग का निर्माण कर घनघोर तपस्या की थी। वर्तमान लाल बलुआ पत्थर के मंदिर व घाट का निर्माण मराठा शासक सिंधिया राजवंश एवं पुण्यश्लोक अहिल्याबाई होल्कर द्वारा कराया गया।",
+      readMore: "और पढ़ें",
+      listenMore: "और सुनें",
+      yatraBadge: "पवित्र परिक्रमा पड़ाव",
+      yatraTitle: "काशी पंचकोशी यात्रा",
+      yatraDesc: "काशी पंचकोशी यात्रा सनातन धर्म की सर्वाधिक पूजनीय परिक्रमा है। 88 किलोमीटर (15 कोस) की इस यात्रा में 108 देवालयों के दर्शन किए जाते हैं, जिसमें श्री रामेश्वर महादेव मंदिर तृतीय मुख्य रात्रि पड़ाव है।",
+      yatraSubdesc: "पदयात्री यहाँ वरुणा नदी में स्नान कर रात्रि विश्राम करते हैं और प्रसिद्ध लोटा-भंटा महाप्रसाद ग्रहण करते हैं।",
+      yatraTimelineTitle: "पंचकोशी परिक्रमा के 5 मुख्य पड़ाव",
+      stationKardameshwar: "कर्दमेश्वर (1st पड़ाव)",
+      stationBhimchandi: "भीमचंडी (2nd पड़ाव)",
+      stationRameshwar: "रामेश्वर महादेव (3rd पड़ाव)",
+      stationShivpur: "पाँचो पाण्डव (4th पड़ाव)",
+      stationKapildhara: "कपिलधारा (5th पड़ाव)",
+      btnYatraDetails: "यात्रा की संपूर्ण जानकारी",
+      priestTag: "मुख्य पुजारी",
+      priestBio: "पं. अनूप तिवारी जी पारंपरिक वैदिक विधि-विधान से वर्षों से मंदिर में नित्य पूजा, रुद्राभिषेक, संध्या आरती एवं धार्मिक अनुष्ठानों का संचालन कर रहे हैं।",
+      btnContactPriest: "संपर्क करें",
+      timingsTag: "दैनिक आरती समय",
+      timingMorning: "मंगला आरती",
+      timingMorningRange: "प्रातः 05:00 - 06:00",
+      timingEvening: "संध्या आरती",
+      timingEveningRange: "सायं 07:00 - 08:00",
+      liveStatus: "मंदिर खुला है • दर्शन चालू",
+      donateTag: "दान एवं अन्नक्षेत्र सहयोग",
+      donateSub: "मंदिर विकास, अन्नक्षेत्र, लोटा-भंटा मेला एवं पदयात्री सेवा हेतु स्वेच्छा से दान करें।",
+      scanPayTag: "Scan & Pay via any UPI App",
+      upiIdLabel: "UPI ID:",
+      copyBtn: "कॉपी करें",
+      copiedMsg: "UPI ID कॉपी हो गई!",
+      contactFormTitle: "संपर्क एवं पूछताछ",
+      contactFormSuccess: "आपका संदेश प्राप्त हो गया है!",
+      inputName: "आपका नाम *",
+      inputPhone: "मोबाइल नंबर *",
+      inputMsg: "संदेश या पूछताछ *",
+      btnSendMsg: "WhatsApp पर संदेश भेजें",
+      phoneLabel: "फ़ोन / WhatsApp:",
+      mapTitle: "मंदिर स्थान",
+      openGoogleMaps: "Google Maps पर देखें",
+    },
+    // Intro Page
+    intro: {
+      title: "श्री रामेश्वर महादेव मंदिर - विस्तृत परिचय",
+      sub: "काशी पंचकोशी परिक्रमा का अति पावन तृतीय पड़ाव",
+      cardHeading: "मंदिर का आध्यात्मिक, भौगोलिक एवं सांस्कृतिक परिचय",
+      p1: "श्री रामेश्वर महादेव मंदिर वाराणसी (काशी) के पश्चिमोत्तर भाग में पवित्र वरुणा नदी के तट पर स्थित सनातन धर्म का एक अति प्राचीन एवं सिद्ध शिव धाम है। यह मंदिर विश्वप्रसिद्ध 'काशी पंचकोशी परिक्रमा' का 3रा सबसे महत्वपूर्ण पड़ाव (Halt No: 3) है।",
+      p2: "ऐतिहासिक रूप से यह क्षेत्र पूर्व में 'करौना' (करौंदा के सघन वनों के कारण) नाम से जाना जाता था, जो बाद में भगवान श्रीराम के आगमन एवं रामेश्वर शिवलिंग स्थापना के पश्चात 'रामेश्वर' नाम से प्रसिद्ध हुआ।",
+      p3: "मंदिर परिसर में विशाल लाल बलुआ पत्थर से निर्मित मण्डप, वरुणा नदी घाट, नंदी मण्डप, सीता-लक्ष्मण-भरत-शत्रुघ्न शिवलिंग, तथा पदयात्रियों हेतु धर्मशाला व अन्नक्षेत्र स्थित है। यहाँ मार्गशीर्ष (अघन) मास में प्रसिद्ध 'लोटा-भंटा मेला' आयोजित होता है जिसमें हजारों श्रद्धालु बाटी-चोखा बनाकर महादेव को भोग लगाते हैं।",
+      sidebarHeading: "मुख्य आकर्षण एवं तथ्य",
+      item1: "भगवान श्रीराम द्वारा स्थापित बालू का शिवलिंग",
+      item2: "पवित्र वरुणा नदी तट एवं सुंदर मराठा घाट",
+      item3: "पंचकोशी पदयात्री मुख्य रात्रि विश्राम पड़ाव",
+      item4: "वार्षिक प्रसिद्ध लोटा-भंटा (बाटी-चोखा) मेला",
+    },
+    // History Page
+    history: {
+      title: "श्री रामेश्वर महादेव मंदिर - प्रामाणिक इतिहास",
+      sub: "स्कंद पुराण (काशी खंड) एवं मराठा स्थापत्य कला की अमर गाथा",
+      cardHeading: "पौराणिक कथा एवं ऐतिहासिक निर्माण विवरण",
+      p1: "स्कंद पुराण के 'काशी खंड' एवं रामचरितमानस के संदर्भों के अनुसार, त्रेतायुग में लंकापति रावण का वध करने के पश्चात भगवान श्रीराम, भ्राता लक्ष्मण, माता सीता एवं हनुमान जी के साथ काशी पधारे थे। रावण (जो कि पुलस्त्य ऋषि का वंशज एवं ब्राह्मण था) का वध करने से उत्पन्न 'ब्रह्महत्या दोष' के निवारण एवं भगवान शिव की कृपा प्राप्ति हेतु श्रीराम ने वरुणा नदी के तट पर मुट्ठी भर बालू से शिवलिंग निर्मित कर कठोर तपस्या की।",
+      p2: "भगवान शिव ने श्रीराम की अनन्य भक्ति से प्रसन्न होकर उन्हें प्रत्यक्ष दर्शन दिए और वरदान प्रदान किया कि यह स्थान संसार में 'रामेश्वर महादेव' नाम से विख्यात होगा तथा यहाँ वरुणा में स्नान कर दर्शन करने वाले भक्तों के समस्त पाप नष्ट हो जाएँगे। श्रीराम के साथ ही माता सीता, लक्ष्मण, भरत, शत्रुघ्न एवं हनुमान जी ने भी यहाँ शिवलिंग स्थापित किए जो आज भी मंदिर परिसर में पूजित हैं।",
+      p3: "ऐतिहासिक रूप से मंदिर का वर्तमान भव्य स्वरूप मराठा वास्तुकला का बेजोड़ नमूना है। 18वीं व 19वीं शताब्दी में ग्वालियर के महाराजा जानकोजी राव सिंधिया, महाराजा जीवाजी राव सिंधिया एवं मालवा की महारानी पुण्यश्लोक अहिल्याबाई होल्कर ने ग्वालियर के लाल बलुआ पत्थरों से सुंदर मंदिर, नक्काशीदार बालकनी, कोट तथा वरुणा घाट का निर्माण कराया।",
+      sidebarHeading: "ऐतिहासिक व पौराणिक तथ्य",
+      item1: "स्थापना: भगवान श्रीराम (त्रेतायुग में बालू शिवलिंग)",
+      item2: "ग्रंथ प्रमाण: स्कंद पुराण (काशी खंड)",
+      item3: "स्थापत्य: ग्वालियर लाल बलुआ पत्थर (मराठा शैली)",
+      item4: "संरक्षक: सिंधिया राजवंश व महारानी अहिल्याबाई होल्कर",
+    },
+    // Yatra Page
+    yatra: {
+      title: "काशी पंचकोशी परिक्रमा",
+      sub: "88 किलोमीटर की विश्व की प्राचीनतम पदयात्रा एवं पड़ाव विवरण",
+      cardHeading: "काशी पंचकोशी यात्रा का प्रामाणिक महत्व",
+      p1: "काशी की पंचकोशी परिक्रमा विश्व की सबसे प्राचीन एवं फलदायी धार्मिक पदयात्राओं में सर्वोच्च स्थान रखती है। इसमें काशी नगरी के चारों ओर 5 क्रोश (लगभग 88 किमी) के दायरे में स्थित 108 प्रमुख देवालयों एवं तीर्थों की पदयात्रा की जाती है।",
+      p2: "इस महायात्रा में कुल 5 मुख्य रात्रि विश्राम पड़ाव (Halt) होते हैं:",
+      halt1: "1. प्रथम पड़ाव: कर्दमेश्वर महादेव (कंदवा) - यात्रा का पहला रात्रि विश्राम।",
+      halt2: "2. द्वितीय पड़ाव: भीमचंडी देवी - माँ दुर्गा के शक्तिपीठ स्वरूप की पूजा।",
+      halt3: "3. तृतीय पड़ाव: श्री रामेश्वर महादेव (वरुणा तट) - केंद्रीय मुख्य पड़ाव जहाँ पदयात्री वरुणा स्नान कर विश्राम करते हैं व लोटा-भंटा महाप्रसाद ग्रहण करते हैं।",
+      halt4: "4. चतुर्थ पड़ाव: पाँचो पाण्डव (शिवपुर) - पांडवों द्वारा स्थापित शिव मंदिर।",
+      halt5: "5. पंचम पड़ाव: कपिलधारा (सारंगनाथ/राजघाट) - अंतिम पड़ाव जिसके बाद मणिकर्णिका घाट पर यात्रा का संकल्प पूर्ण होता है।",
+      p3: "रामेश्वर महादेव पड़ाव को यात्रा की 'आत्मा' माना जाता है। यहाँ वैशाख, सावन तथा मार्गशीर्ष मास में लाखों श्रद्धालु नंगे पैर चलते हुए पहुँचते हैं और वरुणा नदी तट पर विश्राम करते हैं।",
+      sidebarHeading: "पंचकोशी यात्रा निर्देश",
+      item1: "मणिकर्णिका घाट से संकल्प लेकर पदयात्रा प्रारंभ होती है",
+      item2: "रामेश्वर पड़ाव पर निःशुल्क भोजन व विश्राम व्यवस्था",
+      item3: "वरुणा नदी में स्नान व रामेश्वर पूजन अत्यंत पुण्यदायी",
+      item4: "वार्षिक लोटा-भंटा मेले में संतान सुख हेतु बाटी-चोखा भोग",
+    },
+    // Gallery Page
+    gallery: {
+      title: "मंदिर चित्र गैलरी",
+      sub: "श्री रामेश्वर महादेव मंदिर के पावन स्वरूप एवं सुंदर क्षण",
+      viewLarge: "बड़ा देखें",
+    },
+    // Timings Page
+    timings: {
+      title: "आरती एवं दर्शन समय सारणी",
+      sub: "श्री रामेश्वर महादेव मंदिर दैनिक पूजा एवं आरती समय",
+      cardHeading: "दैनिक पूजा एवं आरती समय सारणी",
+      morningTitle: "मंगला आरती एवं प्रातः पूजन",
+      morningTime: "प्रातः 05:00 बजे - 06:00 बजे",
+      morningDesc: "प्रातः काल कपाट उद्घाटन, शिवजी का गंगाजल व वरुणा जल से अभिषेक, शृंगार एवं प्रथम मंगला आरती।",
+      middayTitle: "भोग आरती एवं मध्याह्न विश्राम",
+      middayTime: "दोपहर 12:00 बजे - 12:30 बजे",
+      middayDesc: "भगवान शिव को राजभोग अर्पण एवं मध्याह्न आरती। (दोपहर 12:30 से 04:00 विश्राम हेतु कपाट बंद)",
+      eveningTitle: "संध्या महाआरती एवं अलौकिक शृंगार",
+      eveningTime: "सायं 07:00 बजे - 08:15 बजे",
+      eveningDesc: "दैनिक भव्य संध्या आरती, डमरू वादन, धूप-दीप, शंखनाद एवं फूलों से मनमोहक शृंगार दर्शन।",
+      nightTitle: "शयन आरती एवं कपाट शयन",
+      nightTime: "रात्रि 09:30 बजे - 10:00 बजे",
+      nightDesc: "रात्रि शयन आरती एवं मंत्रोच्चार के पश्चात कपाट बंद होना।",
+      sidebarHeading: "दर्शनार्थियों हेतु नियम",
+      item1: "शालीन एवं पारंपरिक भारतीय वस्त्र धारण करें",
+      item2: "गर्भ गृह में स्वच्छता व पवित्रता बनाए रखें",
+      item3: "विशेष आरती समय 15 मिनट पूर्व उपस्थित हों",
+      item4: "मोबाइल शांत (Silent) मोड पर रखें",
+    },
+    // Priest Page
+    priest: {
+      title: "मुख्य पुजारी - पं. अनूप तिवारी",
+      sub: "वैदिक पूजा, रुद्राभिषेक एवं धार्मिक अनुष्ठान विशेषज्ञ",
+      name: "पं. अनूप तिवारी",
+      role: "मुख्य पुजारी, श्री रामेश्वर महादेव मंदिर, वाराणसी",
+      intro: "पं. अनूप तिवारी जी पारंपरिक वैदिक विधि-विधान एवं कर्मकांड से वर्षों से श्री रामेश्वर महादेव मंदिर में नियमित रूप से नित्य पूजा, आरती, शृंगार एवं रुद्राभिषेक का संपादन कर रहे हैं।",
+      servicesTitle: "पं. अनूप तिवारी जी द्वारा संपन्न की जाने वाली पूजा सेवाएं",
+      service1Title: "रुद्राभिषेक",
+      service1Desc: "दूध, दही, घी, शहद, शक्कर, गंगाजल एवं बेलपत्र द्वारा विशेष वेद मंत्रों के साथ शिवजी का अभिषेक।",
+      service2Title: "महामृत्युंजय जाप",
+      service2Desc: "अकाल मृत्यु भय निवारण, असाध्य रोग मुक्ति व आरोग्य लाभ हेतु महामृत्युंजय मंत्र जाप।",
+      service3Title: "कालसर्प व दोष शांति",
+      service3Desc: "जन्मकुंडली दोष, राहू-केतु एवं कालसर्प दोष शांति हेतु विशेष तांत्रिक व वैदिक अनुष्ठान।",
+      service4Title: "विवाह व गृह प्रवेश",
+      service4Desc: "पावन विवाह संस्कार, सत्यनारायण कथा तथा नूतन गृह प्रवेश पूजन विधि।",
+      bookingHeading: "पूजा-अनुष्ठान बुकिंग हेतु संपर्क करें",
+      bookingDesc: "यदि आप श्री रामेश्वर महादेव मंदिर में रुद्राभिषेक, विशेष पूजा अथवा पंचकोशी यात्रा के दौरान दर्शन में सहायता चाहते हैं, तो पं. अनूप तिवारी जी से सीधे संपर्क कर सकते हैं।",
+      btnWhatsapp: "WhatsApp पर संदेश भेजें",
+      btnCall: "कॉल करें: +91 9956120169",
+      sidebarAddress: "पुजारी जी का पता",
+      fullAddress: "श्री रामेश्वर महादेव मंदिर,\nपंचकोशी मार्ग, वाराणसी (उ.प्र.) - 221001",
+    },
+    // Donate Page
+    donate: {
+      title: "दान एवं सेवा सहयोग",
+      sub: "मंदिर विकास, अन्नक्षेत्र, लोटा-भंटा मेला एवं पदयात्री सेवा हेतु दान अर्पित करें",
+      cardHeading: '"दान धर्म का मूल है"',
+      cardSub: "श्री रामेश्वर महादेव मंदिर विकास न्यास द्वारा संचालित अन्नक्षेत्र (निःशुल्क भोजन प्रसादम), पंचकोशी पदयात्री सेवा, गौसेवा एवं मंदिर जीर्णोद्धार कार्यों में आपका अमूल्य योगदान सादर आमंत्रित है।",
+      scanTag: "Google Pay, PhonePe, Paytm या किसी भी UPI ऐप से स्कैन करें",
+      upiIdLabel: "UPI ID:",
+      copyBtn: "UPI ID Copy करें",
+      copiedBtn: "कॉपी हो गया ✓",
+      bankDetailsTitle: "बैंक खाता विवरण (Direct Bank Transfer)",
+      accountNameLabel: "खाता धारक का नाम:",
+      accountNameValue: "Shri Rameshwar Mahadev Mandir Vikas Nyas",
+      bankNameLabel: "बैंक का नाम:",
+      bankNameValue: "Union Bank of India",
+      upiAddressLabel: "UPI Address:",
+      btnReceipt: "दान रसीद हेतु संपर्क करें",
+      sidebarPurpose: "दान का मुख्य उद्देश्य",
+      purpose1: "अन्नक्षेत्र: श्रद्धालुओं हेतु निःशुल्क भोजन प्रसादम",
+      purpose2: "जीर्णोद्धार: मंदिर परिसर व घाट रखरखाव",
+      purpose3: "गौसेवा: मंदिर गऊशाला संचालन",
+      purpose4: "पदयात्री: पंचकोशी यात्री निःशुल्क सेवा",
+      sidebarPayments: "💳 स्वीकृत भुगतान माध्यम",
+    },
+    // Contact Page
+    contact: {
+      title: "संपर्क एवं स्थान मार्गदर्शिका",
+      sub: "श्री रामेश्वर महादेव मंदिर वाराणसी पहुँचने के मार्ग एवं संपर्क सूत्र",
+      heading: "संदेश भेजें / पूजा बुकिंग पूछताछ",
+      formSuccess: "आपका संदेश WhatsApp पर खोल दिया गया है! शीघ्र ही पंडित जी उत्तर देंगे।",
+      inputNameLabel: "आपका पूरा नाम *",
+      inputNamePlaceholder: "उदा. राम कुमार शर्मा",
+      inputPhoneLabel: "मोबाइल नंबर *",
+      inputPhonePlaceholder: "+91 9956120169",
+      inputEmailLabel: "ईमेल पता",
+      inputEmailPlaceholder: "yourname@gmail.com",
+      inputMessageLabel: "आपका संदेश लिखें *",
+      inputMessagePlaceholder: "पूजा बुकिंग, दर्शन अथवा मंदिर से संबंधित अपना प्रश्न लिखें...",
+      btnSubmit: "WhatsApp पर संदेश भेजें",
+      reachHeading: "मंदिर पहुँचने के मार्ग",
+      trainTitle: "रेल मार्ग से (By Train)",
+      trainDesc: "वाराणसी जंक्शन (कैंट स्टेशन) से लगभग 14 किमी की दूरी पर स्थित है। ऑटो/टैक्सी आसानी से उपलब्ध है।",
+      flightTitle: "वायु मार्ग से (By Flight)",
+      flightDesc: "लाल बहादुर शास्त्री अंतरराष्ट्रीय हवाई अड्डा (बाबतपुर) से दूरी लगभग 18 किमी है।",
+      roadTitle: "सड़क मार्ग से (By Road)",
+      roadDesc: "वाराणसी शहर से शिवपुर अथवा पंचकोशी मार्ग होकर मंदिर सीधे पहुँचा जा सकता है।",
+      sidebarTitle: "संपर्क विवरण",
+      addressLabel: "पता:",
+      addressValue: "श्री रामेश्वर महादेव मंदिर - काशी पंचक्रोशी (Halt No: 3), पंचकोशी मार्ग, वरुणा तट, वाराणसी - 221001",
+      phoneLabel: "फ़ोन / WhatsApp:",
+      priestLabel: "मुख्य पुजारी:",
+      priestValue: "पं. अनूप तिवारी",
+      emailLabel: "ईमेल:",
+      emailValue: "info@rameshwartemple.in",
+      mapTitle: "Google Maps लोकेशन",
+      btnGoogleMaps: "Google Maps पर खोलें",
+    },
+    // Footer
+    footer: {
+      mantraLine: "|| ॐ नमः शिवाय ||",
+      heading: "Ψ हर हर महादेव Ψ",
+      copyright: "© 2026 श्री रामेश्वर महादेव मंदिर | सर्वाधिकार सुरक्षित",
+      whatsappTitle: "WhatsApp सहायता",
+    }
+  },
+  en: {
+    // Navbar
+    nav: {
+      templeName: "Shri Rameshwar Mahadev Temple",
+      templeLoc: "Panchkoshi Marg, Varanasi",
+      home: "Home",
+      intro: "About",
+      history: "History",
+      yatra: "Panchkoshi",
+      gallery: "Gallery",
+      timings: "Timings",
+      priest: "Pt. Anoop",
+      contact: "Contact",
+      donate: "Donate",
+      langSwitch: "हिंदी",
+      langCode: "HI",
+    },
+    // Home Page
+    home: {
+      mantra: "|| Om Namah Shivaya ||",
+      heroTitle: "Shri Rameshwar Mahadev Temple",
+      heroSub: "Varanasi (Kashi)",
+      heroDesc: "A revered Shiva shrine mentioned in the Skanda Purana (Kashi Khanda), consecrated by Lord Shri Rama himself to seek redemption from Brahmahatya Dosha. Situated on the Varuna River bank, it serves as the vital 3rd halt of the sacred Kashi Panchkoshi Yatra.",
+      btnYatra: "Explore Panchkoshi Yatra",
+      btnDarshan: "Temple Visit & Route",
+      badgeSeva: "Lota-Bhanta Mela",
+      badgeSevaSub: "Free Food Prasad for Devotees",
+      introTitle: "About the Temple",
+      introText: "Situated on the banks of the sacred Varuna River along the Panchkoshi Parikrama route in Varanasi (Kashi), Shri Rameshwar Mahadev Temple is an ancient and spiritually vibrant center of Sanatan Dharma. It is the crucial 3rd and main overnight halt of the 88-km Yatra.",
+      historyTitle: "Temple History & Mythological Lore",
+      historyText: "According to the Kashi Khanda of Skanda Purana, Lord Shri Rama consecrated a Shivalinga from sand on the Varuna River bank after defeating Ravana to cleanse Brahmahatya dosha. The current red sandstone structure and ghats were built by Maratha rulers of Scindia dynasty and Punyashlok Ahilyabai Holkar.",
+      readMore: "Read More",
+      listenMore: "Listen Details",
+      yatraBadge: "Sacred Parikrama Shrine",
+      yatraTitle: "Kashi Panchkoshi Yatra",
+      yatraDesc: "The Kashi Panchkoshi Yatra is considered the most sacred religious circumambulation of Kashi, spanning 88 kilometers (15 krosh) across 108 temples. Shri Rameshwar Mahadev Temple is its principal central halt.",
+      yatraSubdesc: "Pilgrims bathe in the Varuna River, rest overnight here, and partake in the traditional Lota-Bhanta mahaprasad.",
+      yatraTimelineTitle: "5 Major Halts of Panchkoshi Parikrama",
+      stationKardameshwar: "Kardameshwar (1st Halt)",
+      stationBhimchandi: "Bhimchandi (2nd Halt)",
+      stationRameshwar: "Rameshwar Mahadev (3rd Halt)",
+      stationShivpur: "Pancho Pandav (4th Halt)",
+      stationKapildhara: "Kapildhara (5th Halt)",
+      btnYatraDetails: "Complete Yatra Details",
+      priestTag: "Head Priest",
+      priestBio: "Pt. Anoop Tiwari Ji has been conducting daily Vedic worship, Rudrabhishek, evening Aarti, and sacred ceremonies at the temple for many years.",
+      btnContactPriest: "Contact Priest",
+      timingsTag: "Daily Aarti Schedule",
+      timingMorning: "Mangala Aarti",
+      timingMorningRange: "05:00 AM - 06:00 AM",
+      timingEvening: "Sandhya Aarti",
+      timingEveningRange: "07:00 PM - 08:00 PM",
+      liveStatus: "Temple Open • Darshan Active",
+      donateTag: "Donation & Annakshetra",
+      donateSub: "Contribute voluntarily for temple renovation, Annakshetra, Lota-Bhanta Mela, and pilgrim welfare.",
+      scanPayTag: "Scan & Pay via any UPI App",
+      upiIdLabel: "UPI ID:",
+      copyBtn: "Copy",
+      copiedMsg: "UPI ID Copied!",
+      contactFormTitle: "Get in Touch",
+      contactFormSuccess: "Your message has been received!",
+      inputName: "Your Name *",
+      inputPhone: "Mobile Number *",
+      inputMsg: "Message or Inquiry *",
+      btnSendMsg: "Send Message via WhatsApp",
+      phoneLabel: "Phone / WhatsApp:",
+      mapTitle: "Temple Location",
+      openGoogleMaps: "View on Google Maps",
+    },
+    // Intro Page
+    intro: {
+      title: "Shri Rameshwar Mahadev Temple - Detailed Introduction",
+      sub: "The Sacred 3rd Halt of Kashi Panchkoshi Parikrama",
+      cardHeading: "Spiritual, Geographical, and Cultural Overview",
+      p1: "Shri Rameshwar Mahadev Temple is an ancient and spiritually charged Shiva shrine located on the banks of the sacred Varuna River in the northwestern precinct of Varanasi (Kashi). It serves as the most vital 3rd overnight halt (Halt No: 3) of the world-famous 'Kashi Panchkoshi Parikrama'.",
+      p2: "Historically, the surrounding village was known as 'Karauna' due to dense Karaunda forests, which was later renamed 'Rameshwar' following Lord Shri Rama's divine visit and consecration of the Rameshwar Shivalinga.",
+      p3: "The temple complex features a grand red sandstone mandap, stone ghats along the Varuna River, Nandi Mandap, Shivalingas consecrated by Sita-Lakshmana-Bharata-Shatrughna, pilgrim rest houses, and an Annakshetra. Every year during Margashirsha month, the iconic 'Lota-Bhanta Fair' is celebrated here where thousands cook Baati-Chokha in earthen pots to offer Lord Shiva.",
+      sidebarHeading: "Key Highlights & Facts",
+      item1: "Sand Shivalinga Consecrated by Lord Shri Rama",
+      item2: "Sacred Varuna River Bank & Maratha Stone Ghats",
+      item3: "Primary Central Overnight Halt of Panchkoshi Yatra",
+      item4: "Famous Annual Lota-Bhanta (Baati-Chokha) Fair",
+    },
+    // History Page
+    history: {
+      title: "Shri Rameshwar Mahadev Temple - Authentic History",
+      sub: "Skanda Purana (Kashi Khanda) & Maratha Architectural Heritage",
+      cardHeading: "Puranic Legends and Historical Construction Record",
+      p1: "According to the 'Kashi Khanda' of the Skanda Purana and Ramcharitmanas traditions, after his victory over Ravana in Lanka, Lord Shri Rama arrived in Kashi alongside Lord Lakshmana, Mother Sita, and Hanuman Ji. To seek redemption from 'Brahmahatya Dosha' (incurred by killing Ravana, a Brahmin descendant of Rishi Pulastya) and earn Lord Shiva's blessings, Lord Rama crafted a Shivalinga from a handful of Varuna river sand and performed severe penance.",
+      p2: "Pleased with Lord Rama's supreme devotion, Lord Shiva appeared before him and bestowed the boon that this holy spot shall be immortalized across the world as 'Rameshwar Mahadev' and devotees bathing in the Varuna and worshiping here shall be liberated from all sins. Shivalingas consecrated by Mother Sita, Lakshmana, Bharata, Shatrughna, and Hanuman Ji are also worshiped within the temple precinct.",
+      p3: "Historically, the present temple structure is an architectural masterpiece of Maratha design. During the 18th and 19th centuries, Maharaja Jankoji Rao Scindia, Maharaja Jivaji Rao Scindia of Gwalior, and Maharani Punyashlok Ahilyabai Holkar constructed the grand temple, carved stone balconies, fortress walls, and Varuna ghats using red sandstone brought from Gwalior.",
+      sidebarHeading: "Historical & Puranic Facts",
+      item1: "Consecrated By: Lord Shri Rama (Treta Yuga Sand Linga)",
+      item2: "Textual Reference: Skanda Purana (Kashi Khanda)",
+      item3: "Architecture: Gwalior Red Sandstone (Maratha Style)",
+      item4: "Patrons: Scindia Dynasty & Maharani Ahilyabai Holkar",
+    },
+    // Yatra Page
+    yatra: {
+      title: "Kashi Panchkoshi Parikrama",
+      sub: "88-Kilometer Sacred Pilgrimage Walk & Halt Details",
+      cardHeading: "Authentic Significance of Kashi Panchkoshi Yatra",
+      p1: "The Panchkoshi Parikrama of Kashi holds the highest position among sacred pilgrimage walks in Sanatan Dharma. Spanning a 5-krosh (approx. 88 km) perimeter around holy Kashi, pilgrims walk barefoot to worship at 108 designated temples and holy spots.",
+      p2: "The pilgrimage features 5 primary overnight halts (Night Stops):",
+      halt1: "1. 1st Halt: Kardameshwar Mahadev (Kandwa) - First night resting shrine.",
+      halt2: "2. 2nd Halt: Bhimchandi Devi - Worship of Goddess Durga's Shaktipeeth form.",
+      halt3: "3. 3rd Halt: Shri Rameshwar Mahadev (Varuna Bank) - Central primary halt where pilgrims take holy dips in Varuna River, rest overnight, and partake in Lota-Bhanta mahaprasad.",
+      halt4: "4. 4th Halt: Pancho Pandav (Shivpur) - Temple established by the Pandavas.",
+      halt5: "5. 5th Halt: Kapildhara (Sarangnath/Rajghat) - Final halt before concluding the resolution at Manikarnika Ghat.",
+      p3: "Rameshwar Mahadev Halt is revered as the 'Soul of the Yatra'. During Vaisakha, Shravan, and Margashirsha months, lakhs of bare-footed pilgrims gather along the Varuna River bank to seek divine peace.",
+      sidebarHeading: "Panchkoshi Yatra Highlights",
+      item1: "Commences with sacred resolution at Manikarnika Ghat",
+      item2: "Free food and accommodation at Rameshwar Halt",
+      item3: "Holy Varuna River bath & Rameshwar Mahadev Darshan",
+      item4: "Annual Lota-Bhanta festival offering Baati-Chokha",
+    },
+    // Gallery Page
+    gallery: {
+      title: "Temple Photo Gallery",
+      sub: "Divine Glimpses of Shri Rameshwar Mahadev Temple",
+      viewLarge: "View Fullscreen",
+    },
+    // Timings Page
+    timings: {
+      title: "Aarti & Darshan Timings",
+      sub: "Daily Worship & Aarti Schedule of Shri Rameshwar Mahadev Temple",
+      cardHeading: "Daily Worship and Aarti Timetable",
+      morningTitle: "Mangala Aarti & Morning Worship",
+      morningTime: "05:00 AM - 06:00 AM",
+      morningDesc: "Early morning temple doors opening, holy bathing of Shivalinga with Gangajal and Varuna water, floral decoration, and Mangala Aarti.",
+      middayTitle: "Bhog Aarti & Midday Rest",
+      middayTime: "12:00 PM - 12:30 PM",
+      middayDesc: "Offering Rajbhog prasad to Lord Shiva followed by Midday Aarti. (Doors closed 12:30 PM - 04:00 PM for rest)",
+      eveningTitle: "Sandhya Mahaaarti & Divine Shringar",
+      eveningTime: "07:00 PM - 08:15 PM",
+      eveningDesc: "Grand evening Aarti accompanied by Damru beats, incense, shankhnaad, and grand floral adornment.",
+      nightTitle: "Shayan Aarti & Night Closing",
+      nightTime: "09:30 PM - 10:00 PM",
+      nightDesc: "Night closing Aarti after which temple doors close for the day.",
+      sidebarHeading: "Devotee Guidelines",
+      item1: "Please wear modest and traditional Indian attire",
+      item2: "Maintain purity & cleanliness near sanctum sanctorum",
+      item3: "Arrive 15 minutes prior to Aarti schedule",
+      item4: "Keep mobile phones on silent mode",
+    },
+    // Priest Page
+    priest: {
+      title: "Head Priest - Pt. Anoop Tiwari",
+      sub: "Vedic Puja, Rudrabhishek & Religious Ritual Specialist",
+      name: "Pt. Anoop Tiwari",
+      role: "Head Priest, Shri Rameshwar Mahadev Temple, Varanasi",
+      intro: "Pt. Anoop Tiwari Ji has been performing authentic daily worship, Rudrabhishek, evening Aarti, adornments, and Vedic ceremonies at Shri Rameshwar Mahadev Temple for many years.",
+      servicesTitle: "Puja Services Conducted by Pt. Anoop Tiwari Ji",
+      service1Title: "Rudrabhishek",
+      service1Desc: "Sacred bathing of Shivalinga using milk, curd, ghee, honey, sugar, Gangajal, and Belpatra with Vedic chanting.",
+      service2Title: "Mahamrityunjaya Jaap",
+      service2Desc: "Chanting of Mahamrityunjaya Mantras for protection, health, longevity, and disease freedom.",
+      service3Title: "Kalsarp & Dosh Shanti",
+      service3Desc: "Special Vedic rituals for resolving Kundali Dosh, Rahu-Ketu Dosh, and Kalsarp Dosh.",
+      service4Title: "Marriage & Griha Pravesh",
+      service4Desc: "Auspicious wedding ceremonies, Satyanarayan Katha, and new house entry (Griha Pravesh) rituals.",
+      bookingHeading: "Contact for Booking Puja & Rituals",
+      bookingDesc: "If you wish to perform Rudrabhishek, special rituals, or seek guidance during Panchkoshi Yatra, you can directly contact Pt. Anoop Tiwari Ji.",
+      btnWhatsapp: "Send Message via WhatsApp",
+      btnCall: "Call Now: +91 9956120169",
+      sidebarAddress: "Priest's Office Address",
+      fullAddress: "Shri Rameshwar Mahadev Temple,\nPanchkoshi Marg, Varanasi (U.P.) - 221001",
+    },
+    // Donate Page
+    donate: {
+      title: "Donation & Support",
+      sub: "Contribute generously for Temple Development, Annakshetra & Pilgrim Welfare",
+      cardHeading: '"Charity is the Foundation of Dharma"',
+      cardSub: "Your valuable contribution is cordially invited for free food distribution (Annakshetra), Panchkoshi pilgrim facilities, Gaushala care, and temple renovation managed by Shri Rameshwar Mahadev Mandir Vikas Nyas.",
+      scanTag: "Scan using Google Pay, PhonePe, Paytm or any UPI App",
+      upiIdLabel: "UPI ID:",
+      copyBtn: "Copy UPI ID",
+      copiedBtn: "Copied ✓",
+      bankDetailsTitle: "Direct Bank Transfer Details",
+      accountNameLabel: "Account Name:",
+      accountNameValue: "Shri Rameshwar Mahadev Mandir Vikas Nyas",
+      bankNameLabel: "Bank Name:",
+      bankNameValue: "Union Bank of India",
+      upiAddressLabel: "UPI Address:",
+      btnReceipt: "Contact for Donation Receipt",
+      sidebarPurpose: "Purpose of Donation",
+      purpose1: "Annakshetra: Free food for all pilgrims",
+      purpose2: "Renovation: Temple premises & ghat maintenance",
+      purpose3: "Gaushala: Shelter and care for cows",
+      purpose4: "Padayatri: Panchkoshi pilgrim free support",
+      sidebarPayments: "💳 Accepted Payment Modes",
+    },
+    // Contact Page
+    contact: {
+      title: "Contact & Route Guide",
+      sub: "How to reach Shri Rameshwar Mahadev Temple Varanasi & Contact Info",
+      heading: "Send Message / Puja Booking Inquiry",
+      formSuccess: "Your message has been opened in WhatsApp! Pandit Ji will respond shortly.",
+      inputNameLabel: "Your Full Name *",
+      inputNamePlaceholder: "e.g. Ram Kumar Sharma",
+      inputPhoneLabel: "Mobile Number *",
+      inputPhonePlaceholder: "+91 9956120169",
+      inputEmailLabel: "Email Address",
+      inputEmailPlaceholder: "yourname@gmail.com",
+      inputMessageLabel: "Write Your Message *",
+      inputMessagePlaceholder: "Write your inquiry regarding puja booking, darshan or temple...",
+      btnSubmit: "Send Message via WhatsApp",
+      reachHeading: "How to Reach the Temple",
+      trainTitle: "By Train",
+      trainDesc: "Located approx. 14 km from Varanasi Junction (Cantt Railway Station). Auto/Taxis are readily available.",
+      flightTitle: "By Flight",
+      flightDesc: "Located approx. 18 km from Lal Bahadur Shastri International Airport (Bapatpur).",
+      roadTitle: "By Road",
+      roadDesc: "Accessible via Shivpur or Panchkoshi Marg from Varanasi city center.",
+      sidebarTitle: "Contact Details",
+      addressLabel: "Address:",
+      addressValue: "Shri Rameshwar Mahadev Temple - Kashi Panchkroshi (Halt No: 3), Panchkoshi Marg, Varuna Bank, Varanasi - 221001",
+      phoneLabel: "Phone / WhatsApp:",
+      priestLabel: "Head Priest:",
+      priestValue: "Pt. Anoop Tiwari",
+      emailLabel: "Email:",
+      emailValue: "info@rameshwartemple.in",
+      mapTitle: "Google Maps Location",
+      btnGoogleMaps: "Open in Google Maps",
+    },
+    // Footer
+    footer: {
+      mantraLine: "|| Om Namah Shivaya ||",
+      heading: "Ψ Har Har Mahadev Ψ",
+      copyright: "© 2026 Shri Rameshwar Mahadev Temple | All Rights Reserved",
+      whatsappTitle: "WhatsApp Support",
+    }
+  }
+};
+
+export function LanguageProvider({ children }) {
+  const [lang, setLangState] = useState(() => {
+    return localStorage.getItem('site_language') || 'hi';
+  });
+
+  useEffect(() => {
+    document.body.className = lang === 'en' ? 'lang-en' : 'lang-hi';
+  }, [lang]);
+
+  const setLang = (newLang) => {
+    setLangState(newLang);
+    localStorage.setItem('site_language', newLang);
+  };
+
+  // Utility helper for translation lookup
+  const t = (path) => {
+    const keys = path.split('.');
+    let current = translations[lang] || translations.hi;
+    for (const k of keys) {
+      if (current && current[k] !== undefined) {
+        current = current[k];
+      } else {
+        // Fallback to Hindi if key missing in English
+        let fallback = translations.hi;
+        for (const fk of keys) {
+          if (fallback && fallback[fk] !== undefined) fallback = fallback[fk];
+        }
+        return typeof fallback === 'string' ? fallback : path;
+      }
+    }
+    return current;
+  };
+
+  return (
+    <LanguageContext.Provider value={{ lang, setLang, t }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+}
+
+export function useLanguage() {
+  const context = useContext(LanguageContext);
+  if (!context) {
+    throw new Error("useLanguage must be used within a LanguageProvider");
+  }
+  return context;
+}
