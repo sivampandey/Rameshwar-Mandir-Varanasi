@@ -85,13 +85,6 @@ export default function Home() {
               <i className="fa-solid fa-location-dot"></i> {t('home.btnDarshan')}
             </Link>
           </div>
-          <div className="feature-badge-card">
-            <div className="badge-icon">🚩</div>
-            <div className="badge-text">
-              <strong>{t('home.badgeSeva')}</strong>
-              <span>{t('home.badgeSevaSub')}</span>
-            </div>
-          </div>
         </div>
       </section>
 
