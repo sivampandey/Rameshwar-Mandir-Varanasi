@@ -1,12 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+
+const homeGalleryImages = [
+  { id: 1, src: '/assets/images/gallery/gallery_silver_shivalinga.jpg' },
+  { id: 2, src: '/assets/images/gallery/gallery_yogi_aarti_hawan.jpg' },
+  { id: 3, src: '/assets/images/gallery/gallery_special_puja.jpg' },
+  { id: 4, src: '/assets/images/gallery/gallery_ghat_aarti.jpg' },
+  { id: 5, src: '/assets/images/gallery/gallery_sadhguru_visit.jpg' },
+  { id: 6, src: '/assets/images/gallery/gallery_ghat_sunset_crowd.jpg' }
+];
 
 export default function Home() {
   const { lang, t } = useLanguage();
   const [copied, setCopied] = useState(false);
   const [contactData, setContactData] = useState({ name: '', phone: '', email: '', message: '' });
   const [formSent, setFormSent] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(null);
+
+  const openLightbox = (index) => setLightboxIndex(index);
+  const closeLightbox = () => setLightboxIndex(null);
+
+  const nextImage = (e) => {
+    e.stopPropagation();
+    setLightboxIndex((prev) => (prev + 1) % homeGalleryImages.length);
+  };
+
+  const prevImage = (e) => {
+    e.stopPropagation();
+    setLightboxIndex((prev) => (prev - 1 + homeGalleryImages.length) % homeGalleryImages.length);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (lightboxIndex === null) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') setLightboxIndex((prev) => (prev + 1) % homeGalleryImages.length);
+      if (e.key === 'ArrowLeft') setLightboxIndex((prev) => (prev - 1 + homeGalleryImages.length) % homeGalleryImages.length);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxIndex]);
 
   const handleCopyUpi = () => {
     navigator.clipboard.writeText('QR917007370522-1875@unionbankofindia');
@@ -154,6 +188,60 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* GALLERY PREVIEW SECTION */}
+      <section className="home-gallery-section section-container">
+        <div className="home-gallery-header">
+          <h2 className="home-gallery-title">{t('home.galleryTag')}</h2>
+        </div>
+
+        <div className="home-gallery-grid">
+          {homeGalleryImages.map((img, idx) => (
+            <div
+              key={img.id}
+              className="home-gallery-card"
+              onClick={() => openLightbox(idx)}
+            >
+              <img src={img.src} alt={`${t('home.galleryTitle')} ${idx + 1}`} loading="lazy" />
+              <div className="simple-gallery-hover-overlay">
+                <span className="simple-zoom-icon">🔍</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="home-gallery-cta">
+          <Link to="/gallery" className="btn-home-gallery">
+            <i className="fa-solid fa-images"></i> {t('home.btnViewGallery')}
+          </Link>
+        </div>
+
+        {/* Lightbox Modal */}
+        {lightboxIndex !== null && homeGalleryImages[lightboxIndex] && (
+          <div className="simple-lightbox-backdrop" onClick={closeLightbox}>
+            <div className="simple-lightbox-container" onClick={(e) => e.stopPropagation()}>
+              <button className="simple-lightbox-close" onClick={closeLightbox} title="Close">
+                &times;
+              </button>
+
+              <button className="simple-lightbox-nav prev" onClick={prevImage} title="Previous">
+                &#10094;
+              </button>
+
+              <div className="simple-lightbox-img-wrapper">
+                <img
+                  src={homeGalleryImages[lightboxIndex].src}
+                  alt={`${t('home.galleryTitle')} ${lightboxIndex + 1}`}
+                />
+              </div>
+
+              <button className="simple-lightbox-nav next" onClick={nextImage} title="Next">
+                &#10095;
+              </button>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* FOUR CARDS GRID ROW */}

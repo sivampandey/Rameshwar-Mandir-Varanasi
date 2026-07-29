@@ -71,6 +71,10 @@ export const translations = {
       phoneLabel: "फ़ोन / WhatsApp:",
       mapTitle: "मंदिर स्थान",
       openGoogleMaps: "Google Maps पर देखें",
+      galleryTag: "मंदिर चित्र गैलरी",
+      galleryTitle: "पावन दर्शन एवं दिव्य झलकियां",
+      galleryDesc: "श्री रामेश्वर महादेव मंदिर, भव्य आरती, एवं धार्मिक आयोजनों के अलौकिक चित्र।",
+      btnViewGallery: "संपूर्ण गैलरी देखें",
     },
     // Intro Page
     intro: {
@@ -304,6 +308,10 @@ export const translations = {
       phoneLabel: "Phone / WhatsApp:",
       mapTitle: "Temple Location",
       openGoogleMaps: "View on Google Maps",
+      galleryTag: "Temple Photo Gallery",
+      galleryTitle: "Divine Glimpses & Gallery",
+      galleryDesc: "Sacred images of Shri Rameshwar Mahadev Temple, grand Aarti, and divine events.",
+      btnViewGallery: "View Full Gallery",
     },
     // Intro Page
     intro: {
