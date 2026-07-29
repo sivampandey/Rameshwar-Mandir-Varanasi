@@ -12,9 +12,7 @@ export default function Footer() {
     <>
       <footer className="site-footer">
         <div className="footer-top-ornament">
-          <div className="diya-glow-left">🪔</div>
           <div className="mantra-line">{t('footer.mantraLine')}</div>
-          <div className="diya-glow-right">🪔</div>
         </div>
         <div className="footer-main-text">
           <h2 className="trishul-mahadev-heading">{t('footer.heading')}</h2>

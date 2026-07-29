@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import { useLiveStatus } from '../hooks/useLiveStatus';
 
 const homeGalleryImages = [
   { id: 1, src: '/assets/images/gallery/gallery_silver_shivalinga.jpg' },
@@ -13,6 +14,7 @@ const homeGalleryImages = [
 
 export default function Home() {
   const { lang, t } = useLanguage();
+  const liveInfo = useLiveStatus(t, lang);
   const [copied, setCopied] = useState(false);
   const [contactData, setContactData] = useState({ name: '', phone: '', email: '', message: '' });
   const [formSent, setFormSent] = useState(false);
@@ -278,7 +280,7 @@ export default function Home() {
             </div>
 
             <div className="timings-body">
-              <div className="timing-block morning-block">
+              <div className={`timing-block morning-block ${liveInfo.activeAarti === 'mangala' ? 'active-aarti-highlight' : ''}`}>
                 <div className="timing-icon-col">
                   <div className="sun-icon-animated">☀️</div>
                 </div>
@@ -290,7 +292,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="timing-block evening-block">
+              <div className={`timing-block evening-block ${liveInfo.activeAarti === 'sandhya' ? 'active-aarti-highlight' : ''}`}>
                 <div className="timing-icon-col">
                   <div className="moon-icon-animated">🌙</div>
                 </div>
@@ -303,9 +305,14 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="live-status-pill">
-              <span className="status-dot green"></span>
-              <span>{t('home.liveStatus')}</span>
+            <div className={`live-status-pill ${liveInfo.badgeType}`}>
+              <span className={`status-dot ${liveInfo.badgeType === 'live' ? 'pulsing-gold' : liveInfo.badgeType === 'open' ? 'green' : liveInfo.badgeType === 'rest' ? 'orange' : 'red'}`}></span>
+              <span>{liveInfo.statusText}</span>
+            </div>
+
+            <div className="live-clock-sub">
+              <span className="live-clock-time"><i className="fa-regular fa-clock"></i> {liveInfo.timeString}</span>
+              <span className="next-aarti-text">{liveInfo.nextAartiText}</span>
             </div>
           </div>
 
