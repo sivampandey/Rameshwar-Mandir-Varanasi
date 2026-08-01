@@ -19,7 +19,7 @@ export default function Services() {
             <div className="detail-text-body">
               <h2>वैदिक पूजन एवं अनुष्ठान सेवाएं</h2>
               <p>
-                श्री रामेश्वर महादेव मंदिर में मुख्य पुजारी <strong>पं. अनूप तिवारी</strong> जी के आचार्यत्व में शास्त्रोक्त विधि से निम्नलिखित पूजा-अनुष्ठान संपन्न कराए जाते हैं:
+                श्री रामेश्वर महादेव मंदिर में मुख्य पुजारी <strong>पीठाधीश्वर आचार्य पंडित अनूप तिवारी जी</strong> के आचार्यत्व में शास्त्रोक्त विधि से निम्नलिखित पूजा-अनुष्ठान संपन्न कराए जाते हैं:
               </p>
 
               <div className="full-services-list">
@@ -73,7 +73,7 @@ export default function Services() {
               </div>
 
               <div className="page-action-row">
-                <Link to="/priest" className="btn btn-primary">पं. अनूप तिवारी जी से संपर्क करें</Link>
+                <Link to="/priest" className="btn btn-primary">पीठाधीश्वर आचार्य पंडित अनूप तिवारी जी से संपर्क करें</Link>
                 <Link to="/contact" className="btn btn-secondary">पूजा बुकिंग फॉर्म भरें</Link>
               </div>
             </div>

@@ -18,6 +18,37 @@ export default function Home() {
   const [copied, setCopied] = useState(false);
   const [contactData, setContactData] = useState({ name: '', phone: '', email: '', message: '' });
   const [formSent, setFormSent] = useState(false);
+  const [docModalSrc, setDocModalSrc] = useState(null);
+
+  const trustCardsData = [
+    {
+      id: 1,
+      icon: 'fa-file-invoice',
+      label: t('home.trustCard1Label'),
+      desc: t('home.trustCard1Desc'),
+      detail1: t('home.trustCard1Detail1'),
+      detail2: t('home.trustCard1Detail2'),
+      src: '/assets/images/event_service_receipt.png'
+    },
+    {
+      id: 2,
+      icon: 'fa-id-card',
+      label: t('home.trustCard2Label'),
+      desc: t('home.trustCard2Desc'),
+      detail1: t('home.trustCard2Detail1'),
+      detail2: t('home.trustCard2Detail2'),
+      src: '/assets/images/membership_card.png'
+    },
+    {
+      id: 3,
+      icon: 'fa-certificate',
+      label: t('home.trustCard3Label'),
+      desc: t('home.trustCard3Desc'),
+      detail1: t('home.trustCard3Detail1'),
+      detail2: t('home.trustCard3Detail2'),
+      src: '/assets/images/donation_certificate.png'
+    }
+  ];
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
   const openLightbox = (index) => setLightboxIndex(index);
@@ -185,6 +216,57 @@ export default function Home() {
         </div>
       </section>
 
+      {/* TEMPLE TRUST CARDS SECTION */}
+      <section className="section-container trust-cards-section">
+        <div className="trust-cards-header">
+          <h2 className="trust-cards-title">{t('home.trustCardsTitle')}</h2>
+          <p className="trust-cards-subtitle">{t('home.trustCardsSub')}</p>
+        </div>
+
+        <div className="trust-cards-grid">
+          {trustCardsData.map((card) => (
+            <div key={card.id} className="trust-card-item">
+              <div className="trust-card-label">
+                <i className={`fa-solid ${card.icon}`}></i>
+                <span>{card.label}</span>
+              </div>
+
+              <div className="trust-card-img-wrapper" onClick={() => setDocModalSrc(card.src)} title={t('home.btnViewDoc')}>
+                <img src={card.src} alt={card.label} loading="lazy" />
+                <div className="doc-hover-overlay">
+                  <span className="doc-zoom-btn">
+                    <i className="fa-solid fa-magnifying-glass-plus"></i> {t('home.btnViewDoc')}
+                  </span>
+                </div>
+              </div>
+
+              <div className="trust-card-body">
+                <p className="trust-card-desc">{card.desc}</p>
+                <ul className="trust-card-details">
+                  <li><i className="fa-solid fa-circle-check"></i> <span>{card.detail1}</span></li>
+                  <li><i className="fa-solid fa-circle-check"></i> <span>{card.detail2}</span></li>
+                </ul>
+                <button className="btn-trust-card-zoom" onClick={() => setDocModalSrc(card.src)}>
+                  <i className="fa-solid fa-expand"></i> {t('home.btnViewDoc')}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Document Lightbox Modal */}
+        {docModalSrc && (
+          <div className="simple-lightbox-backdrop" onClick={() => setDocModalSrc(null)}>
+            <div className="doc-lightbox-container" onClick={(e) => e.stopPropagation()}>
+              <button className="simple-lightbox-close" onClick={() => setDocModalSrc(null)} title="Close">
+                &times;
+              </button>
+              <img src={docModalSrc} alt="Full Document View" className="doc-lightbox-img" />
+            </div>
+          </div>
+        )}
+      </section>
+
       {/* GALLERY PREVIEW SECTION */}
       <section className="home-gallery-section section-container">
         <div className="home-gallery-header">
@@ -251,7 +333,7 @@ export default function Home() {
 
             <div className="priest-profile">
               <div className="priest-avatar-wrapper">
-                <img src="/assets/images/pandit_ji.png" alt="Pt. Anoop Tiwari" className="priest-img" />
+                <img src="/assets/images/pandit_ji.png" alt="Peethadiswar Aachzrya Pandit Anup Tiwari Ji" className="priest-img" />
                 <div className="avatar-ring"></div>
               </div>
               <div className="priest-info">
