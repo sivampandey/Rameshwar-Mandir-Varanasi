@@ -18,7 +18,7 @@ A modern, high-performance, and visually stunning web application for **Shri Ram
 
 - **📜 Authentic Historical & Mythological Lore**:
   - Verified details from the **Skanda Purana (Kashi Khanda)** regarding Lord Shri Rama consecrating the *Valuka Shivalinga* (Sand Linga) to seek redemption from *Brahmahatya Dosha*.
-  - Historical architectural background detailing Maratha constructions by **Maharani Ahilyabai Holkar** and the **Scindia Maratha Dynasty**.
+  - Historical architectural background detailing Maratha constructions by **Purohit Parivar** and the **Scindia Maratha Dynasty**.
 
 - **🚶‍♂️ Panchkoshi Parikrama Yatra Guide**:
   - Comprehensive breakdown of the 88-km (15 krosh) 108-temple pilgrimage.
