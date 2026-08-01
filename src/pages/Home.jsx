@@ -19,6 +19,54 @@ export default function Home() {
   const [contactData, setContactData] = useState({ name: '', phone: '', email: '', message: '' });
   const [formSent, setFormSent] = useState(false);
   const [docModalSrc, setDocModalSrc] = useState(null);
+  const [isBlurred, setIsBlurred] = useState(false);
+  const [showWarnToast, setShowWarnToast] = useState(false);
+
+  useEffect(() => {
+    const handleBlur = () => setIsBlurred(true);
+    const handleFocus = () => setIsBlurred(false);
+
+    const handleKeyDown = (e) => {
+      if (
+        e.key === 'PrintScreen' ||
+        e.code === 'PrintScreen' ||
+        ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 's' || e.key === 'P' || e.key === 'S'))
+      ) {
+        if (e.key === 'p' || e.key === 'P' || e.key === 's' || e.key === 'S') {
+          e.preventDefault();
+        }
+        setIsBlurred(true);
+        setShowWarnToast(true);
+        setTimeout(() => {
+          setIsBlurred(false);
+          setShowWarnToast(false);
+        }, 3500);
+      }
+    };
+
+    const handleKeyUp = (e) => {
+      if (e.key === 'PrintScreen' || e.code === 'PrintScreen') {
+        setIsBlurred(true);
+        setShowWarnToast(true);
+        setTimeout(() => {
+          setIsBlurred(false);
+          setShowWarnToast(false);
+        }, 3500);
+      }
+    };
+
+    window.addEventListener('blur', handleBlur);
+    window.addEventListener('focus', handleFocus);
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      window.removeEventListener('blur', handleBlur);
+      window.removeEventListener('focus', handleFocus);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, []);
 
   const trustCardsData = [
     {
@@ -218,6 +266,13 @@ export default function Home() {
 
       {/* TEMPLE TRUST CARDS SECTION */}
       <section className="section-container trust-cards-section">
+        {showWarnToast && (
+          <div className="security-toast-warning">
+            <i className="fa-solid fa-shield-halved"></i>
+            <span>सुरक्षा चेतावनी: प्रपत्र/सदस्यता पत्र की प्रतिलिपि व स्क्रीनशॉट प्रतिबंधित है!</span>
+          </div>
+        )}
+
         <div className="trust-cards-header">
           <h2 className="trust-cards-title">{t('home.trustCardsTitle')}</h2>
           <p className="trust-cards-subtitle">{t('home.trustCardsSub')}</p>
@@ -231,8 +286,23 @@ export default function Home() {
                 <span>{card.label}</span>
               </div>
 
-              <div className="trust-card-img-wrapper" onClick={() => setDocModalSrc(card.src)} title={t('home.btnViewDoc')}>
-                <img src={card.src} alt={card.label} loading="lazy" />
+              <div
+                className={`trust-card-img-wrapper protected-doc ${isBlurred ? 'security-blurred' : ''}`}
+                onClick={() => setDocModalSrc(card.src)}
+                onContextMenu={(e) => e.preventDefault()}
+                onDragStart={(e) => e.preventDefault()}
+                title={t('home.btnViewDoc')}
+              >
+                <img
+                  src={card.src}
+                  alt={card.label}
+                  loading="lazy"
+                  onContextMenu={(e) => e.preventDefault()}
+                  onDragStart={(e) => e.preventDefault()}
+                />
+                <div className="doc-watermark-overlay" aria-hidden="true">
+                  <span>PROTECTED • RAMESHWAR TRUST</span>
+                </div>
                 <div className="doc-hover-overlay">
                   <span className="doc-zoom-btn">
                     <i className="fa-solid fa-magnifying-glass-plus"></i> {t('home.btnViewDoc')}
@@ -257,11 +327,25 @@ export default function Home() {
         {/* Document Lightbox Modal */}
         {docModalSrc && (
           <div className="simple-lightbox-backdrop" onClick={() => setDocModalSrc(null)}>
-            <div className="doc-lightbox-container" onClick={(e) => e.stopPropagation()}>
+            <div
+              className={`doc-lightbox-container protected-doc ${isBlurred ? 'security-blurred' : ''}`}
+              onClick={(e) => e.stopPropagation()}
+              onContextMenu={(e) => e.preventDefault()}
+              onDragStart={(e) => e.preventDefault()}
+            >
               <button className="simple-lightbox-close" onClick={() => setDocModalSrc(null)} title="Close">
                 &times;
               </button>
-              <img src={docModalSrc} alt="Full Document View" className="doc-lightbox-img" />
+              <img
+                src={docModalSrc}
+                alt="Full Document View"
+                className="doc-lightbox-img"
+                onContextMenu={(e) => e.preventDefault()}
+                onDragStart={(e) => e.preventDefault()}
+              />
+              <div className="doc-watermark-overlay modal-watermark" aria-hidden="true">
+                <span>PROTECTED • SHRI RAMESHWAR MAHADEV TEMPLE TRUST</span>
+              </div>
             </div>
           </div>
         )}
