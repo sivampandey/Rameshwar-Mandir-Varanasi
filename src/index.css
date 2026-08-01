@@ -4073,7 +4073,6 @@ body.lang-en .btn {
 .protected-doc img {
     pointer-events: none !important;
     -webkit-user-drag: none !important;
-    user-drag: none !important;
 }
 
 .security-blurred {
