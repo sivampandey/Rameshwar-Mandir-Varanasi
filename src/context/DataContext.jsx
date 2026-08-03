@@ -1,20 +1,20 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { supabase } from '../lib/supabase';
 
-// Default fallback data for initial seed
+// Default fallback data for initial seed (12 valid existing gallery images)
 const defaultGalleryImages = [
-  { title: 'चांदी के शिवलिंग का शृंगार', caption: 'विशेष आरती के समय दिव्य शृंगार दर्शन', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_silver_shivalinga.jpg', display_order: 1 },
-  { title: 'योगी जी महाआरती व हवन', caption: 'उत्तर प्रदेश के मुख्यमंत्री जी द्वारा विशेष पूजन', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_yogi_aarti_hawan.jpg', display_order: 2 },
-  { title: 'विशेष महापूजा एवं आरती', caption: 'मंदिर प्रांगण में विशेष आयोजन', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_special_puja.jpg', display_order: 3 },
-  { title: 'दंपति पूजन अनुष्ठान', caption: 'श्रद्धालुओं द्वारा विशेष अर्चन', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_couple_puja.jpg', display_order: 4 },
-  { title: 'घाट आरती एवं दीपदान', caption: 'वरुणा नदी तट पर संध्या आरती', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_ghat_aarti.jpg', display_order: 5 },
-  { title: 'सद्गुरु जी का आगमन', caption: 'सद्गुरु जग्गी वासुदेव जी का मंदिर दर्शन', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_sadhguru_visit.jpg', display_order: 6 },
-  { title: 'वरिष्ठ अतिथियों का स्वागत', caption: 'समिती द्वारा सम्मानित महानुभाव', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_dignitary_welcome.jpg', display_order: 7 },
-  { title: 'पुलिस प्रशासन दर्शन', caption: 'वरिष्ठ प्रशासनिक अधिकारियों की उपस्थिति', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_police_ips_visit.jpg', display_order: 8 },
-  { title: 'सूर्यास्त के समय घाट का दृश्य', caption: 'संध्या काल का विहंगम दृश्य', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_ghat_sunset_crowd.jpg', display_order: 9 },
-  { title: 'घाट पर उमड़ी अपार भीड़', caption: 'पर्व विशेष पर श्रद्धालुओं का तांता', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_ghat_crowd.jpg', display_order: 10 },
-  { title: 'पूज्य संतों का आशीर्वाद', caption: 'धर्म सभा एवं महामंडलेश्वरों का समागम', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_sant_ashirwad.jpg', display_order: 11 },
-  { title: 'प्रबंध समिति बैठक', caption: 'मंदिर विकास एवं व्यवस्था पर विचार विमर्श', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_samiti_baithak.jpg', display_order: 12 }
+  { id: 1, title: 'चांदी के शिवलिंग का शृंगार', caption: 'विशेष आरती के समय दिव्य शृंगार दर्शन', fitMode: 'contain-blur', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_silver_shivalinga.jpg', display_order: 1 },
+  { id: 2, title: 'योगी जी महाआरती व हवन', caption: 'उत्तर प्रदेश के मुख्यमंत्री जी द्वारा विशेष पूजन', fitMode: 'contain-blur', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_yogi_aarti_hawan.jpg', display_order: 2 },
+  { id: 3, title: 'विशेष महापूजा एवं आरती', caption: 'मंदिर प्रांगण में विशेष आयोजन', fitMode: 'contain-blur', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_special_puja.jpg', display_order: 3 },
+  { id: 4, title: 'दंपति पूजन अनुष्ठान', caption: 'श्रद्धालुओं द्वारा विशेष अर्चन', fitMode: 'contain-blur', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_couple_puja.jpg', display_order: 4 },
+  { id: 5, title: 'घाट आरती एवं दीपदान', caption: 'वरुणा नदी तट पर संध्या आरती', fitMode: 'contain-blur', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_ghat_aarti.jpg', display_order: 5 },
+  { id: 6, title: 'सद्गुरु जी का आगमन', caption: 'सद्गुरु जग्गी वासुदेव जी का मंदिर दर्शन', fitMode: 'contain-blur', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_sadhguru_visit.jpg', display_order: 6 },
+  { id: 7, title: 'वरिष्ठ अतिथियों का स्वागत', caption: 'समिती द्वारा सम्मानित महानुभाव', fitMode: 'contain-blur', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_dignitary_welcome.jpg', display_order: 7 },
+  { id: 8, title: 'पुलिस प्रशासन दर्शन', caption: 'वरिष्ठ प्रशासनिक अधिकारियों की उपस्थिति', fitMode: 'contain-blur', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_police_ips_visit.jpg', display_order: 8 },
+  { id: 9, title: 'सूर्यास्त के समय घाट का दृश्य', caption: 'संध्या काल का विहंगम दृश्य', fitMode: 'contain-blur', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_ghat_sunset_crowd.jpg', display_order: 9 },
+  { id: 10, title: 'घाट पर उमड़ी अपार भीड़', caption: 'पर्व विशेष पर श्रद्धालुओं का तांता', fitMode: 'contain-blur', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_ghat_crowd.jpg', display_order: 10 },
+  { id: 11, title: 'पूज्य संतों का आशीर्वाद', caption: 'धर्म सभा एवं महामंडलेश्वरों का समागम', fitMode: 'contain-blur', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_sant_ashirwad.jpg', display_order: 11 },
+  { id: 12, title: 'प्रबंध समिति बैठक', caption: 'मंदिर विकास एवं व्यवस्था पर विचार विमर्श', fitMode: 'contain-blur', fit_mode: 'contain-blur', src: '/assets/images/gallery/gallery_samiti_baithak.jpg', display_order: 12 }
 ];
 
 const defaultAnnouncements = [
@@ -133,14 +133,16 @@ export function DataProvider({ children }) {
           id: img.id,
           title: img.title,
           caption: img.caption,
-          fitMode: img.fit_mode || 'contain-blur',
+          fitMode: img.fit_mode || img.fitMode || 'contain-blur',
+          fit_mode: img.fit_mode || img.fitMode || 'contain-blur',
           src: img.src,
           date: new Date(img.created_at || Date.now()).toLocaleDateString('hi-IN')
         })));
       } else if (!imgErr && imgData && imgData.length === 0) {
         // Seed default gallery images if empty
         console.log('Seeding initial gallery images to Supabase...');
-        await supabase.from('gallery_images').insert(defaultGalleryImages);
+        const payload = defaultGalleryImages.map(({ id, fitMode, ...rest }) => rest);
+        await supabase.from('gallery_images').insert(payload);
       }
 
       // Fetch Announcements
@@ -249,14 +251,14 @@ export function DataProvider({ children }) {
     const payload = {
       title: newImg.title || 'रामेश्वर मंदिर चित्र',
       caption: newImg.caption || '',
-      fit_mode: newImg.fitMode || 'contain-blur',
+      fit_mode: newImg.fitMode || newImg.fit_mode || 'contain-blur',
       src: finalSrc,
       display_order: galleryImages.length + 1
     };
 
     // Optimistic UI update
     const tempId = Date.now();
-    const tempObj = { id: tempId, title: payload.title, caption: payload.caption, fitMode: payload.fit_mode, src: payload.src, date: new Date().toLocaleDateString('hi-IN') };
+    const tempObj = { id: tempId, title: payload.title, caption: payload.caption, fitMode: payload.fit_mode, fit_mode: payload.fit_mode, src: payload.src, date: new Date().toLocaleDateString('hi-IN') };
     setGalleryImages(prev => [...prev, tempObj]);
 
     const { data: inserted, error } = await supabase
@@ -278,7 +280,7 @@ export function DataProvider({ children }) {
   };
 
   const updateImageFitMode = async (id, newFitMode) => {
-    setGalleryImages(prev => prev.map(img => img.id === id ? { ...img, fitMode: newFitMode } : img));
+    setGalleryImages(prev => prev.map(img => img.id === id ? { ...img, fitMode: newFitMode, fit_mode: newFitMode } : img));
     const { error } = await supabase.from('gallery_images').update({ fit_mode: newFitMode }).eq('id', id);
     if (error) console.error('Error updating image fit mode in Supabase:', error);
   };
