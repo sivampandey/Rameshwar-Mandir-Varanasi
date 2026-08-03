@@ -2,18 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { useLiveStatus } from '../hooks/useLiveStatus';
-
-const homeGalleryImages = [
-  { id: 1, src: '/assets/images/gallery/gallery_silver_shivalinga.jpg' },
-  { id: 2, src: '/assets/images/gallery/gallery_yogi_aarti_hawan.jpg' },
-  { id: 3, src: '/assets/images/gallery/gallery_special_puja.jpg' },
-  { id: 4, src: '/assets/images/gallery/gallery_ghat_aarti.jpg' },
-  { id: 5, src: '/assets/images/gallery/gallery_sadhguru_visit.jpg' },
-  { id: 6, src: '/assets/images/gallery/gallery_ghat_sunset_crowd.jpg' }
-];
+import { useData } from '../context/DataContext';
 
 export default function Home() {
   const { lang, t } = useLanguage();
+  const { galleryImages, announcements } = useData();
+  const homeGalleryImages = galleryImages ? galleryImages.slice(0, 6) : [];
+  const activeAnnouncements = announcements ? announcements.filter(a => a.active) : [];
   const liveInfo = useLiveStatus(t, lang);
   const [copied, setCopied] = useState(false);
   const [contactData, setContactData] = useState({ name: '', phone: '', email: '', message: '' });
@@ -166,6 +161,40 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* DYNAMIC ANNOUNCEMENT BANNER - LUXURY MARQUEE */}
+      {activeAnnouncements.length > 0 && (
+        <section className="home-announcements-ticker">
+          <div className="section-container">
+            <div className="announcement-banner-box">
+              <div className="announcement-badge">
+                <i className="fa-solid fa-bell bell-ring-icon"></i>
+                <span>{t('home.noticeBadge') || 'पावन सूचना (Notice)'}</span>
+              </div>
+
+              <div className="announcement-marquee-wrapper">
+                <div className="announcement-marquee-track">
+                  {activeAnnouncements.map((ann) => (
+                    <div key={`ann1-${ann.id}`} className={`ann-scroll-item ${ann.type}`}>
+                      <span className="ann-symbol">🔱</span>
+                      <strong className="ann-title">{ann.title}:</strong>
+                      <span className="ann-text">{ann.text}</span>
+                    </div>
+                  ))}
+                  {/* Duplicate track for smooth continuous infinite loop */}
+                  {activeAnnouncements.map((ann) => (
+                    <div key={`ann2-${ann.id}`} className={`ann-scroll-item ${ann.type}`}>
+                      <span className="ann-symbol">🔱</span>
+                      <strong className="ann-title">{ann.title}:</strong>
+                      <span className="ann-text">{ann.text}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* INTRO & HISTORY SECTION */}
       <section className="section-container">

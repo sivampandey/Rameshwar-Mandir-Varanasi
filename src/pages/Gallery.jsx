@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-
-const galleryImages = [
-  { id: 1, src: '/assets/images/gallery/gallery_silver_shivalinga.jpg' },
-  { id: 2, src: '/assets/images/gallery/gallery_yogi_aarti_hawan.jpg' },
-  { id: 3, src: '/assets/images/gallery/gallery_special_puja.jpg' },
-  { id: 4, src: '/assets/images/gallery/gallery_couple_puja.jpg' },
-  { id: 5, src: '/assets/images/gallery/gallery_ghat_aarti.jpg' },
-  { id: 6, src: '/assets/images/gallery/gallery_sadhguru_visit.jpg' },
-  { id: 7, src: '/assets/images/gallery/gallery_dignitary_welcome.jpg' },
-  { id: 8, src: '/assets/images/gallery/gallery_police_ips_visit.jpg' },
-  { id: 9, src: '/assets/images/gallery/gallery_ghat_sunset_crowd.jpg' },
-  { id: 10, src: '/assets/images/gallery/gallery_ghat_crowd.jpg' },
-  { id: 11, src: '/assets/images/gallery/gallery_sant_ashirwad.jpg' },
-  { id: 12, src: '/assets/images/gallery/gallery_samiti_baithak.jpg' }
-];
+import { useData } from '../context/DataContext';
 
 export default function Gallery() {
   const { t } = useLanguage();
+  const { galleryImages } = useData();
+
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
   const openLightbox = (index) => {
@@ -29,12 +17,12 @@ export default function Gallery() {
   };
 
   const nextImage = (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     setLightboxIndex((prev) => (prev + 1) % galleryImages.length);
   };
 
   const prevImage = (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     setLightboxIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
   };
 
@@ -47,7 +35,7 @@ export default function Gallery() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [lightboxIndex]);
+  }, [lightboxIndex, galleryImages.length]);
 
   return (
     <main>
@@ -61,23 +49,44 @@ export default function Gallery() {
       </section>
 
       <div className="section-container">
-        {/* Simple Pure Image Grid */}
+        {/* Dynamic Image Grid supporting ALL Aspect Ratios */}
         <div className="simple-gallery-grid">
-          {galleryImages.map((img, idx) => (
-            <div
-              key={img.id}
-              className="simple-gallery-card"
-              onClick={() => openLightbox(idx)}
-            >
-              <img src={img.src} alt={`${t('gallery.title')} ${idx + 1}`} loading="lazy" />
-              <div className="simple-gallery-hover-overlay">
-                <span className="simple-zoom-icon">🔍</span>
+          {galleryImages.map((img, idx) => {
+            const fitModeClass = img.fitMode || 'contain-blur';
+            return (
+              <div
+                key={img.id}
+                className={`simple-gallery-card ${fitModeClass}`}
+                onClick={() => openLightbox(idx)}
+              >
+                {/* Background Blur for contain-blur mode */}
+                {fitModeClass === 'contain-blur' && (
+                  <div className="gallery-blur-backdrop" style={{ backgroundImage: `url(${img.src})` }}></div>
+                )}
+
+                <img
+                  src={img.src}
+                  alt={img.title || `${t('gallery.title')} ${idx + 1}`}
+                  loading="lazy"
+                  className="gallery-main-img"
+                />
+
+                <div className="simple-gallery-hover-overlay">
+                  <span className="simple-zoom-icon">🔍</span>
+                  {img.title && <span className="gallery-hover-title">{img.title}</span>}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* Clean Lightbox Modal */}
+        {galleryImages.length === 0 && (
+          <div className="no-images-notice">
+            <p>गैलरी में अभी कोई फोटो नहीं है।</p>
+          </div>
+        )}
+
+        {/* Fullscreen Aspect-Preserved Lightbox Modal */}
         {lightboxIndex !== null && galleryImages[lightboxIndex] && (
           <div className="simple-lightbox-backdrop" onClick={closeLightbox}>
             <div className="simple-lightbox-container" onClick={(e) => e.stopPropagation()}>
@@ -92,8 +101,14 @@ export default function Gallery() {
               <div className="simple-lightbox-img-wrapper">
                 <img
                   src={galleryImages[lightboxIndex].src}
-                  alt={`${t('gallery.title')} ${lightboxIndex + 1}`}
+                  alt={galleryImages[lightboxIndex].title || 'Gallery View'}
                 />
+                {galleryImages[lightboxIndex].title && (
+                  <div className="lightbox-caption-box">
+                    <h4>{galleryImages[lightboxIndex].title}</h4>
+                    {galleryImages[lightboxIndex].caption && <p>{galleryImages[lightboxIndex].caption}</p>}
+                  </div>
+                )}
               </div>
 
               <button className="simple-lightbox-nav next" onClick={nextImage} title="Next">

@@ -2,10 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { useLiveStatus } from '../hooks/useLiveStatus';
+import { useData } from '../context/DataContext';
 
 export default function Timings() {
   const { lang, t } = useLanguage();
   const liveInfo = useLiveStatus(t, lang);
+  const { templeTimings } = useData();
 
   return (
     <main>
@@ -36,29 +38,13 @@ export default function Timings() {
             <div className="detail-text-body">
               <h2>{t('timings.cardHeading')}</h2>
 
-              <div className={`yatra-halt-box margin-bottom-20 ${liveInfo.activeAarti === 'mangala' ? 'active-halt-highlight' : ''}`}>
-                <h4>🌅 {t('timings.morningTitle')}</h4>
-                <strong className="text-gold">{t('timings.morningTime')}</strong>
-                <p>{t('timings.morningDesc')}</p>
-              </div>
-
-              <div className={`yatra-halt-box margin-bottom-20 ${liveInfo.activeAarti === 'bhog' ? 'active-halt-highlight' : ''}`}>
-                <h4>🍲 {t('timings.middayTitle')}</h4>
-                <strong className="text-gold">{t('timings.middayTime')}</strong>
-                <p>{t('timings.middayDesc')}</p>
-              </div>
-
-              <div className={`yatra-halt-box margin-bottom-20 ${liveInfo.activeAarti === 'sandhya' ? 'active-halt-highlight' : ''}`}>
-                <h4>🪔 {t('timings.eveningTitle')}</h4>
-                <strong className="text-gold">{t('timings.eveningTime')}</strong>
-                <p>{t('timings.eveningDesc')}</p>
-              </div>
-
-              <div className={`yatra-halt-box margin-bottom-20 ${liveInfo.activeAarti === 'shayan' ? 'active-halt-highlight' : ''}`}>
-                <h4>🌙 {t('timings.nightTitle')}</h4>
-                <strong className="text-gold">{t('timings.nightTime')}</strong>
-                <p>{t('timings.nightDesc')}</p>
-              </div>
+              {templeTimings && templeTimings.map((item, idx) => (
+                <div key={item.id || idx} className="yatra-halt-box margin-bottom-20">
+                  <h4>🪔 {item.name}</h4>
+                  <strong className="text-gold">{item.time}</strong>
+                  <p>{item.desc}</p>
+                </div>
+              ))}
 
               <div className="page-action-row">
                 <Link to="/priest" className="btn btn-primary">{t('home.btnContactPriest')}</Link>
